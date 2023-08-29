@@ -1,0 +1,24 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: todo_list_db
+    restart: always
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DATABASE: todo_list
+      POSTGRES_USER: fchrgrib
+      POSTGRES_PASSWORD: fchrgrib2310
+      POSTGRES_HOST: todo_list
+
+  todo_backend:
+    image: node:latest
+    build: backend
+    ports:
+      - 8080:8080
+    container_name: todo_list_backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgresql://fchrgrib:fchrgrib2310@todo_list_db:5432/todo_list
